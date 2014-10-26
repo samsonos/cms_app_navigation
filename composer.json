@@ -16,6 +16,9 @@
             "samson\\cms\\web\\navigation": "src/"
         }
     },
+    "require":{
+        "samsonos/cms_app":"*"
+    },
     "require-dev": {
         "satooshi/php-coveralls": "dev-master",
         "squizlabs/php_codesniffer": "2.0.*@dev",
