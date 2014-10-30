@@ -8,16 +8,23 @@
             <span class="bold"><?php v('cmsnav_Name') ?></span>
         </div>
     <?php endif?>
-    <?php echo auth()->create_token( 'structure_token'); ?>
+
     <input type="hidden" name="Active" id="Active" value="1">
     <input type="hidden" name="Created" id="Created" value="<?php iv('cmsnav_Created') ?>">
     <input type="hidden" name="StructureID" id="StructureID" value="<?php iv('cmsnav_id') ?>">
     <input type="hidden" name="MaterialID" id="std_material_id" value="<?php iv('cmsnav_MaterialID')?>">
-    <input type="hidden" name="UserID" id="std_user_id" value="<?php echo auth()->user->id; ?>">
+    <input type="hidden" name="UserID" id="std_user_id" value="<?php echo m('social')->user()->id; ?>">
     <div>
         <label>Родитель:</label>
         <br>
         <select name="ParentID" id="parent_id"><?php v($parent_select) ?></select>
+        <br>
+        <label>Структура подчиненных материалов:</label>
+        <br>
+        <select name="type" id="type">
+            <option value="0" <?php isval('cmsnav_type',0,'selected')?>>Нет</option>
+            <option value="1" <?php isval('cmsnav_type',1,'selected')?>>Да</option>
+        </select>
         <br>
         <label>Наименование:</label>
         <div class="input-text"><input type="text" name="Name" id="Name" value="<?php iv('cmsnav_Name')?>"></div>
