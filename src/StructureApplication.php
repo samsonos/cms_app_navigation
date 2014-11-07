@@ -24,7 +24,7 @@ class StructureApplication extends \samson\cms\App
     public function main()
     {
         // Get new 5 structures
-        $query = dbQuery('samson\cms\cmsnav')
+        $query = dbQuery('samson\cms\CMSNav')
                 ->join('user')
                 ->Active(1)
                 ->order_by('Created', 'DESC')
