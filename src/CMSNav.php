@@ -152,32 +152,71 @@ class CMSNav extends \samson\cms\CMSNav
         return $htmlTree;
     }
 
+    /**
+     * @param CMSNav $parent
+     * @param string $html
+     * @param null $view
+     * @param int $level
+     * @param int $currentNavID
+     * @return string
+     */
     public function htmlTree(CMSNav & $parent = null, & $html = '', $view = null, $level = 0, $currentNavID = 0)
     {
+        /** Collection of visited structures to avoid recursion */
+        static $visited = array();
+
+        // If no parent structure is passed
         if (!isset($parent)) {
+            // Use current object
             $parent = & $this;
         }
-        if ($parent->base) {
-            $children = $parent->children();
-        } else {
-            $children = $parent->baseChildren();
-        }
-        usort($children, array(__CLASS__, 'strSorting'));
 
-        if (sizeof($children)) {
-            $html .= '<ul>';
-            foreach ($children as $child) {
-                if (isset($view)) {
-                    $html .= '<li>'.m()->view($view)->parentid($parent->id)->nav_id($currentNavID)->db_structure($child)
-                            ->output().'';
-                } else {
-                    $html .= '<li>'.$child->Name.'</li>';
-                }
-                //if ($level < 5)
-                    $parent->htmlTree($child, $html, $view, $level++, $currentNavID);
-                $html .= '</li>';
+        // If we have not visited this structure yet
+        if (!isset($visited[$parent->id])) {
+            // Store it as visited
+            $visited[$parent->id] = $parent->Name;
+
+            // Get structure children
+            // TODO: What is the difference?
+            if ($parent->base) {
+                $children = $parent->children();
+            } else {
+                $children = $parent->baseChildren();
             }
-            $html .='</ul>';
+
+            // If we have children collection for this node
+            if (sizeof($children)) {
+
+                // Sort children
+                usort($children, array(__CLASS__, 'strSorting'));
+
+                // Start html list
+                $html .= '<ul>';
+
+                // Iterate all children
+                foreach ($children as $child) {
+                    // If external view is set
+                    if (isset($view)) {
+                        // Start HTML list item and render this view
+                        $html .= '<li>' . m()->view($view)
+                                ->parentid($parent->id)
+                                ->nav_id($currentNavID)
+                                ->db_structure($child)
+                                ->output();
+                    } else { // Render just structure name
+                        $html .= '<li>' . $child->Name;
+                    }
+                    
+                    // Go deeper in recursion
+                    $parent->htmlTree($child, $html, $view, $level++, $currentNavID);
+
+                    // Close HTML list item
+                    $html .= '</li>';
+                }
+
+                // Close HTML list
+                $html .= '</ul>';
+            }
         }
 
         return $html;
