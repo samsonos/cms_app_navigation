@@ -220,6 +220,16 @@ class StructureApplication extends \samson\cms\App
         );
     }
 
+    public function __async_addchildren($structure_id)
+    {
+        if (dbQuery('\samson\cms\web\navigation\CMSNav')->StructureID($structure_id)->first($db_structure)) {
+            $tree = CMSNav::fullTree($db_structure, 0);
+            return array('status' => 1, 'tree' => $tree);
+        }
+
+        return array('status' => 0);
+    }
+
     /**
      * Render sub menu of this app
      * @param int $structure_id Parent structure identifier

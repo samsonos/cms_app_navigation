@@ -43,11 +43,11 @@
         </div>
         <?php if( !isval( 'cmsnav_id')):?>
             <div title="Добавить новый элемент структуры сайта" class="right-align">
-                <input type="submit" value="Добавить" class=""> <input type="button" class="cancel-button" value="Отмена">
+                <input type="submit" value="Добавить" class="structure_submit_button"> <input type="button" class="cancel-button" value="Отмена">
             </div>
         <?php else:?>
             <div title="Сохранить элемент структуры сайта" class="right-align">
-                <input type="submit" value="Сохранить" class=""> <input type="button" class="cancel-button" value="Отмена">
+                <input type="submit" value="Сохранить" class="structure_submit_button"> <input type="button" class="cancel-button" value="Отмена">
             </div>
         <?php endif?>
     </div>

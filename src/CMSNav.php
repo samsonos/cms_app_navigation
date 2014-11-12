@@ -125,7 +125,7 @@ class CMSNav extends \samson\cms\CMSNav
         $this->fillFields();
     }
 
-    public static function fullTree(CMSNav & $parent = null)
+    public static function fullTree(CMSNav & $parent = null, $recursion = 1)
     {
         $html = '';
 
@@ -147,7 +147,7 @@ class CMSNav extends \samson\cms\CMSNav
             }
         }
 
-        $htmlTree = $parent->htmlTree($parent, $html, 'tree/tree-template', 0, $parent->currentNavID);
+        $htmlTree = $parent->htmlTree($parent, $html, 'tree/tree-template', 0, $parent->currentNavID, $recursion);
 
         return $htmlTree;
     }
@@ -160,7 +160,7 @@ class CMSNav extends \samson\cms\CMSNav
      * @param int $currentNavID
      * @return string
      */
-    public function htmlTree(CMSNav & $parent = null, & $html = '', $view = null, $level = 0, $currentNavID = 0)
+    public function htmlTree(CMSNav & $parent = null, & $html = '', $view = null, $level = 0, $currentNavID = 0, $recursion = 1)
     {
         /** Collection of visited structures to avoid recursion */
         static $visited = array();
@@ -197,8 +197,14 @@ class CMSNav extends \samson\cms\CMSNav
                 foreach ($children as $child) {
                     // If external view is set
                     if (isset($view)) {
+                        if (!$recursion && sizeof($child->children())) {
+                            // Start HTML list item and render this view
+                            $html .= '<li class="hasChildren">';
+                        } else {
+                            $html .= '<li>';
+                        }
                         // Start HTML list item and render this view
-                        $html .= '<li>' . m()->view($view)
+                        $html .= m()->view($view)
                                 ->parentid($parent->id)
                                 ->nav_id($currentNavID)
                                 ->db_structure($child)
@@ -206,9 +212,11 @@ class CMSNav extends \samson\cms\CMSNav
                     } else { // Render just structure name
                         $html .= '<li>' . $child->Name;
                     }
-                    
-                    // Go deeper in recursion
-                    $parent->htmlTree($child, $html, $view, $level++, $currentNavID);
+
+                    if ($recursion) {
+                        // Go deeper in recursion
+                        $parent->htmlTree($child, $html, $view, $level++, $currentNavID, $recursion);
+                    }
 
                     // Close HTML list item
                     $html .= '</li>';

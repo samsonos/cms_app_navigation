@@ -2,8 +2,32 @@
  * Created by p.onysko on 03.03.14.
  */
 var loader = new Loader(s('body'));
-function CMSNavigationFormInit() {
 
+
+function AppNavigationInitHitArea(tree) {
+    s('.openCategoryButton', tree).each(function(link) {
+        link.click(function() {
+            if (!link.hasClass('children-uploaded')) {
+                var parent = link.parent();
+                var id = s('.structure_id', parent).html();
+                s.ajax('structure/addchildren/'+id, function(response) {
+                    response = JSON.parse(response);
+                    parent.append(response.tree);
+                    s.trace(s('ul', parent));
+                    link.addClass('children-uploaded');
+                    parent.treeview();
+                    s('ul', parent).addClass('sjs-treeview');
+                    s('.collapsable', s('ul', parent)).each(function(el) {
+                        el.addClass('collapsed');
+                    });
+                    AppNavigationInitHitArea(s('ul', parent));
+                });
+            }
+        });
+    });
+}
+
+function CMSNavigationFormInit() {
     // Флаг нажатия на кнопку управления
     var ControlFormOpened = false;
 
