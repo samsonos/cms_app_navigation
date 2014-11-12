@@ -10,10 +10,13 @@ function AppNavigationInitHitArea(tree) {
             if (!link.hasClass('children-uploaded')) {
                 var parent = link.parent();
                 var id = s('.structure_id', parent).html();
-                s.ajax('structure/addchildren/'+id, function(response) {
+                var controller = 'structure/addchildren';
+                if (parent.a('controller') !== undefined ) {
+                    controller = parent.a('controller');
+                }
+                s.ajax(controller + '/' + id, function(response) {
                     response = JSON.parse(response);
                     parent.append(response.tree);
-                    s.trace(s('ul', parent));
                     link.addClass('children-uploaded');
                     parent.treeview();
                     s('ul', parent).addClass('sjs-treeview');
