@@ -44,7 +44,7 @@ class CMSNav extends \samson\cms\CMSNav
             $select .= '<option title="Не выбрано" value="Не выбрано">Не выбрано</option>';
         }
 
-        if (dbQuery(__CLASS__)->exec($allNavs)) {
+        if (dbQuery(__CLASS__)->Active(1)->exec($allNavs)) {
             foreach ($allNavs as $nav) {
                 $select .= '<option title="'.$nav->Name.'" value="'.$nav->id.'">'.$nav->Name.'</option>';
             }
@@ -88,7 +88,9 @@ class CMSNav extends \samson\cms\CMSNav
     {
         // Fill the fields from $_POST array
         foreach ($_POST as $key => $val) {
-            $this[$key]=$val;
+            if ($key != 'StructureID') {
+                $this[$key]=$val;
+            }
         }
 
         // Save object
@@ -147,9 +149,9 @@ class CMSNav extends \samson\cms\CMSNav
             }
         }
 
-        $htmlTree = $parent->htmlTree($parent, $html, 'tree/tree-template', 0, $parent->currentNavID, $recursion);
+        //$htmlTree = $parent->htmlTree($parent, $html, 'tree/tree-template', 0, $parent->currentNavID, $recursion);
 
-        return $htmlTree;
+        return $parent;
     }
 
     /**

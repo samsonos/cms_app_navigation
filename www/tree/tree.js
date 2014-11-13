@@ -15,14 +15,7 @@ function StructureTree()
 		if( html && html.length ) s( '.tree-container' ).html( html );
 
 
-		// Обработчик отображения/скрытия кнопок управления ЭСС
-		s( '.structure-element' )
-		.mouseover( function(el){ if(!ControlFormOpened) { s( '.control-buttons', el ).show(); ControlElement = el; } })
-		.mouseout( 	function(el){ if(!ControlFormOpened) s( '.control-buttons', el ).hide(); });
 
-
-		// Выведем дерево ЭСС
-		s( '.tree-container' ).treeview();
 	};
 
 	// Инициализируем дерево ЭСС

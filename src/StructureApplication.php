@@ -53,10 +53,12 @@ class StructureApplication extends \samson\cms\App
      */
     public function __HANDLER()
     {
+        $parent = CMSNav::fullTree();
+        $tree = new \samson\treeview\SamsonTree('tree/tree-template', 0, 'structure/addchildren');
         // Установим дерево ЭСС
         m()->view('index')
             ->title('Элементы структуры содержания сайта!')
-            ->tree(CMSNav::fullTree());
+            ->tree($tree->htmlTree($parent));
     }
 
     /**
@@ -64,10 +66,11 @@ class StructureApplication extends \samson\cms\App
      * @return array Ajax response
      */
     public function __async_showall() {
-
+        $parent = CMSNav::fullTree();
+        $tree = new \samson\treeview\SamsonTree('tree/tree-template', 0, 'structure/addchildren');
         $html = m()->view('index')
             ->title('Элементы структуры содержания сайта')
-            ->tree(CMSNav::fullTree())
+            ->tree($tree->htmlTree($parent))
             ->output();
         return array(
             'status'=>1,
@@ -116,17 +119,18 @@ class StructureApplication extends \samson\cms\App
         $currentMainNav = null;
         if (dbQuery('\samson\cms\web\navigation\CMSNav')->StructureID($currentMainNavID)->first($currentMainNav)) {
             $currentMainNav->currentNavID = $currentMainNavID;
+        } else {
+            $currentMainNav = CMSNav::fullTree();
         }
 
-        // Build tree
-        $tree = CMSNav::fullTree($currentMainNav);
+        $tree = new \samson\treeview\SamsonTree('tree/tree-template', 0, 'structure/addchildren');
 
         $sub_menu = m()->view('main/sub_menu')->parentnav_id($currentMainNavID)->nav_id($currentMainNavID)->output();
 
         // return Ajax response
         return array(
             'status' => 1,
-            'tree' => $tree,
+            'tree' => $tree->htmlTree($currentMainNav),
             'sub_menu' => $sub_menu
         );
     }
@@ -208,10 +212,13 @@ class StructureApplication extends \samson\cms\App
         if (dbQuery('\samson\cms\web\navigation\CMSNav')->StructureID($structure_id)->first($db_structure)) {
             $db_structure->currentNavID = $structure_id;
         }
+
+        $tree = new \samson\treeview\SamsonTree('tree/tree-template', 0, 'structure/addchildren');
+
         $html = m()->view('index')
             ->title('Элементы структуры содержания сайта')
             ->parent($db_structure)
-            ->tree(CMSNav::fullTree($db_structure))
+            ->tree($tree->htmlTree($db_structure))
             ->output();
 
         return array(
@@ -223,8 +230,8 @@ class StructureApplication extends \samson\cms\App
     public function __async_addchildren($structure_id)
     {
         if (dbQuery('\samson\cms\web\navigation\CMSNav')->StructureID($structure_id)->first($db_structure)) {
-            $tree = CMSNav::fullTree($db_structure, 0);
-            return array('status' => 1, 'tree' => $tree);
+            $tree = new \samson\treeview\SamsonTree('tree/tree-template', 0, 'structure/addchildren');
+            return array('status' => 1, 'tree' => $tree->htmlTree($db_structure));
         }
 
         return array('status' => 0);

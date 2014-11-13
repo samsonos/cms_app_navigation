@@ -3,34 +3,14 @@
  */
 var loader = new Loader(s('body'));
 
+function CMSNavigationFormInit(tree) {
+    tree.treeview(
+        true,
+        function(tree) {
+            CMSNavigationFormInit(tree);
+        }
+    );
 
-function AppNavigationInitHitArea(tree) {
-    s('.openCategoryButton', tree).each(function(link) {
-        link.click(function() {
-            if (!link.hasClass('children-uploaded')) {
-                var parent = link.parent();
-                var id = s('.structure_id', parent).html();
-                var controller = 'structure/addchildren';
-                if (parent.a('controller') !== undefined ) {
-                    controller = parent.a('controller');
-                }
-                s.ajax(controller + '/' + id, function(response) {
-                    response = JSON.parse(response);
-                    parent.append(response.tree);
-                    link.addClass('children-uploaded');
-                    parent.treeview();
-                    s('ul', parent).addClass('sjs-treeview');
-                    s('.collapsable', s('ul', parent)).each(function(el) {
-                        el.addClass('collapsed');
-                    });
-                    AppNavigationInitHitArea(s('ul', parent));
-                });
-            }
-        });
-    });
-}
-
-function CMSNavigationFormInit() {
     // Флаг нажатия на кнопку управления
     var ControlFormOpened = false;
 
@@ -40,7 +20,7 @@ function CMSNavigationFormInit() {
     /**
     * обработчик добавления новой записи
     */
-    s(".control.add").tinyboxAjax({
+    s(".control.add", tree).tinyboxAjax({
         html:'html',
         renderedHandler: function(response, tb) {
             /** автоматический транслит Урл*/
@@ -54,13 +34,13 @@ function CMSNavigationFormInit() {
                 }
             });
             s(".form2").ajaxSubmit(function(response) {
-                s(".tree-container").html(response.tree).treeview();
                 s('.sub_menu').html(response.sub_menu);
+
+                s(".tree-container").html(response.tree);
+                CMSNavigationFormInit(s(".tree-container"));
+                AppNavigationInitSubMenu();
                 tb.close();
-                s( '.structure-element' )
-                    .mouseover( function(el){ if(!ControlFormOpened) { s( '.control-buttons', el ).show(); ControlElement = el; } })
-                    .mouseout( 	function(el){ if(!ControlFormOpened) s( '.control-buttons', el ).hide(); });
-                CMSNavigationFormInit();
+
             });
             s(".cancel-button").click(function() {
                 tb.close();
@@ -79,23 +59,19 @@ function CMSNavigationFormInit() {
     /**
      * обработчик редактирование новой записи
      */
-    s(".control.editstr").tinyboxAjax({
+    s(".control.editstr", tree).tinyboxAjax({
         html:'html',
         renderedHandler: function(response, tb) {
             s("#generateUrl").click(function(obj) {
-                s.trace(s("#Url").val());
                 if (confirm("Вы точно хотите сгенерировать адрес?")) {
                     s("#Url").val(s("#Name").translit());
                 }
             });
             s(".form2").ajaxSubmit(function(response) {
-                s(".tree-container").html(response.tree).treeview();
                 s('.sub_menu').html(response.sub_menu);
+                s(".tree-container").html(response.tree);
+                CMSNavigationFormInit(s(".tree-container"));
                 tb.close();
-                s( '.structure-element' )
-                    .mouseover( function(el){ if(!ControlFormOpened) { s( '.control-buttons', el ).show(); ControlElement = el; } })
-                    .mouseout( 	function(el){ if(!ControlFormOpened) s( '.control-buttons', el ).hide(); });
-                CMSNavigationFormInit();
             });
             s(".cancel-button").click(function() {
                 tb.close();
@@ -113,13 +89,10 @@ function CMSNavigationFormInit() {
     /**
      * обработка удаления
      */
-    s(".control.delete").ajaxClick(function(response) {
-        s(".tree-container").html(response.tree).treeview();
+    s(".control.delete", tree).ajaxClick(function(response) {
+        s(".tree-container").html(response.tree);
+        CMSNavigationFormInit(s(".tree-container"));
         s('.sub_menu').html(response.sub_menu);
-        s( '.structure-element' )
-            .mouseover( function(el){ if(!ControlFormOpened) { s( '.control-buttons', el ).show(); ControlElement = el; } })
-            .mouseout( 	function(el){ if(!ControlFormOpened) s( '.control-buttons', el ).hide(); });
-        CMSNavigationFormInit();
         loader.hide();
     }, function() {
         if (confirm("Вы уверены, что хотите безвозвратно удалить структуру?")) {
@@ -130,7 +103,7 @@ function CMSNavigationFormInit() {
         }
     });
 
-    s('.control.fields').tinyboxAjax({
+    s('.control.fields', tree).tinyboxAjax({
         html : 'html',
         renderedHandler: function(response, tb){
             fieldForm(tb);
@@ -148,30 +121,43 @@ function CMSNavigationFormInit() {
     /**
      * обработка изменения позиции элемента в дереве
      */
-    s(".control.move-up").ajaxClick(function(response) {
-        s(".tree-container").html(response.tree).treeview();
+    s(".control.move-up", tree).ajaxClick(function(response) {
+        s(".tree-container").html(response.tree);
+        CMSNavigationFormInit(s(".tree-container"));
         s('.sub_menu').html(response.sub_menu);
-        s( '.structure-element' )
-            .mouseover( function(el){ if(!ControlFormOpened) { s( '.control-buttons', el ).show(); ControlElement = el; } })
-            .mouseout( 	function(el){ if(!ControlFormOpened) s( '.control-buttons', el ).hide(); });
-        CMSNavigationFormInit();
         loader.hide();
     }, function() {
         loader.show('Обновление дерева', true);
         return true;
     });
-    s(".control.move-down").ajaxClick(function(response) {
-        s(".tree-container").html(response.tree).treeview();
+    s(".control.move-down", tree).ajaxClick(function(response) {
+        s(".tree-container").html(response.tree);
+        CMSNavigationFormInit(s(".tree-container"));
         s('.sub_menu').html(response.sub_menu);
         s( '.structure-element' )
             .mouseover( function(el){ if(!ControlFormOpened) { s( '.control-buttons', el ).show(); ControlElement = el; } })
             .mouseout( 	function(el){ if(!ControlFormOpened) s( '.control-buttons', el ).hide(); });
-        CMSNavigationFormInit();
         loader.hide();
     }, function() {
         loader.show('Обновление дерева', true);
         return true;
     });
+
+    s(".open", tree).ajaxClick(function(response) {
+        s("#data").html(response.tree);
+        CMSNavigationFormInit(s("#data"));
+        s('.sub_menu').html(response.sub_menu);
+        AppNavigationInitSubMenu();
+        s(".all").removeClass('active');
+
+        loader.hide();
+    }, function() {
+        loader.show('Открытие структуры', true);
+        return true;
+    });
+}
+
+function AppNavigationInitSubMenu() {
     /**
      * обработчик для кнопки "верхнего" меню (sub_menu)
      */
@@ -180,23 +166,18 @@ function CMSNavigationFormInit() {
         renderedHandler: function(response, tb) {
             /** автоматический транслит Урл*/
             s("#Name").keyup(function(obj) {
-                s.trace(s("#Url").val());
                 s("#Url").val(s("#Name").translit());
             });
             /** транслит по кнопке */
             s("#generateUrl").click(function(obj) {
-                s.trace(s("#Url").val());
                 if (confirm("Вы точно хотите сгенерировать адрес?")) {
                     s("#Url").val(s("#Name").translit());
                 }
             });
             s(".form2").ajaxSubmit(function(response) {
-                s(".tree-container").html(response.tree).treeview();
+                s(".tree-container").html(response.tree);
+                CMSNavigationFormInit(s(".tree-container"));
                 tb.close();
-                s( '.structure-element' )
-                    .mouseover( function(el){ if(!ControlFormOpened) { s( '.control-buttons', el ).show(); ControlElement = el; } })
-                    .mouseout( 	function(el){ if(!ControlFormOpened) s( '.control-buttons', el ).hide(); });
-                CMSNavigationFormInit();
             });
             s(".cancel-button").click(function() {
                 tb.close();
@@ -211,35 +192,23 @@ function CMSNavigationFormInit() {
             return true;
         }
     });
-    s(".open").ajaxClick(function(response) {
-        s("#data").html(response.tree).treeview();
-        s('.sub_menu').html(response.sub_menu);
-        s(".all").removeClass('active');
-        s('.structure-element')
-            .mouseover( function(el){ if(!ControlFormOpened) { s( '.control-buttons', el ).show(); ControlElement = el; } })
-            .mouseout( 	function(el){ if(!ControlFormOpened) s( '.control-buttons', el ).hide(); });
-        CMSNavigationFormInit();
-        loader.hide();
-    }, function() {
-        loader.show('Открытие структуры', true);
-        return true;
-    });
-    s(".all").ajaxClick(function(response) {
-        s("#data").html(response.tree).treeview();
-        s('.sub_menu').html(response.sub_menu);
-        s(".all").addClass('active');
-        s( '.structure-element' )
-            .mouseover( function(el){ if(!ControlFormOpened) { s( '.control-buttons', el ).show(); ControlElement = el; } })
-            .mouseout( 	function(el){ if(!ControlFormOpened) s( '.control-buttons', el ).hide(); });
-        CMSNavigationFormInit();
-        loader.hide();
-    }, function() {
-        loader.show('Открытие структуры', true);
-        return true;
-    });
 
+    s(".all").ajaxClick(function(response) {
+        s('.sub_menu').html(response.sub_menu);
+        s("#data").html(response.tree);
+        CMSNavigationFormInit(s('#data'));
+        AppNavigationInitSubMenu();
+        s(".all").addClass('active');
+
+        loader.hide();
+    }, function() {
+        loader.show('Открытие структуры', true);
+        return true;
+    });
 }
 
 s('#structure').pageInit(function() {
-    CMSNavigationFormInit(); //инициализация событий
+    AppNavigationInitSubMenu();
+
+    CMSNavigationFormInit(s(".tree-container")); //инициализация событий
 });
