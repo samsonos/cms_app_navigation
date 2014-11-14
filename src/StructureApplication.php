@@ -94,6 +94,10 @@ class StructureApplication extends \samson\cms\App
         if (!dbQuery('\samson\cms\web\navigation\CMSNav')->StructureID($navID)->first($data)) {
         }
 
+        if (dbQuery('\samson\cms\CMSMaterial')->id($data->MaterialID)->first($mat)) {
+            m()->cmsmaterial($mat);
+        }
+
         // Render form
         $html = m()->view('form/form')
             ->parent_select(CMSNav::createSelect($parentID))
