@@ -231,4 +231,44 @@ class CMSNav extends \samson\cms\CMSNav
 
         return $html;
     }
+
+    public function priority($direction = NULL)
+    {
+        $parent = $this->parent();
+        if (isset($parent))
+        {
+            $p_index = 0;
+
+            foreach ( $parent as $id => $child )
+            {
+                if( $child->PriorityNumber != $p_index)
+                {
+                    $child->PriorityNumber = $p_index;
+
+                    $child->save();
+                }
+
+                $p_index++;
+            }
+
+            $children = array_values($parent->children());
+
+            $old_index = $this->PriorityNumber;
+
+            $new_index =  $old_index - $direction;
+            $new_index = $new_index == sizeof($children) ? 0 : $new_index;
+            $new_index = $new_index == -1 ? sizeof($children) - 1 : $new_index;
+
+
+            if( isset($children[ $new_index ] ) )
+            {
+                $second_nav = $children[ $new_index ];
+                $second_nav->PriorityNumber = $old_index;
+                $second_nav->save();
+
+                $this->PriorityNumber = $new_index;
+                $this->save();
+            }
+        }
+    }
 }

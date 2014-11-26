@@ -192,11 +192,11 @@ class StructureApplication extends \samson\cms\App
      */
     public function __async_priority($navID = 0, $direction)
     {
-        /** @var \samson\cms\CMSNav $data */
+        /** @var CMSNav $data */
         $data = null;
         $response = array ('status'=>0);
 
-        if (ifcmsnav($navID, $data, 'id')) {
+        if (dbQuery('\samson\cms\web\navigation\CMSNav')->id($navID)->first($data)) {
             $data->priority($direction);
             $response['status'] = 1;
         }
