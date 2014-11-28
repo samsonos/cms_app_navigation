@@ -91,7 +91,7 @@ class StructureApplication extends \samson\cms\App
         /** @var CMSNav $data */
         $data = null;
 
-        if (!dbQuery('\samson\cms\web\navigation\CMSNav')->StructureID($navID)->first($data)) {
+        if (dbQuery('\samson\cms\web\navigation\CMSNav')->StructureID($navID)->first($data)) {
             if (dbQuery('\samson\cms\CMSMaterial')->id($data->MaterialID)->first($mat)) {
                 m()->cmsmaterial($mat);
             }
