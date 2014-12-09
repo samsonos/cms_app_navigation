@@ -22,8 +22,9 @@
         <label>Структура подчиненных материалов:</label>
         <br>
         <select name="type" id="type">
-            <option value="0" <?php isval('cmsnav_type',0,'selected')?>>Нет</option>
-            <option value="1" <?php isval('cmsnav_type',1,'selected')?>>Да</option>
+            <option value="0" <?php isval('cmsnav_type',0,'selected')?>>Стандартная структура</option>
+            <option value="1" <?php isval('cmsnav_type',1,'selected')?>>Структура подчиненных материалов</option>
+            <option value="2" <?php isval('cmsnav_type',2,'selected')?>>Структура таблицы</option>
         </select>
         <br>
         <label>Наименование:</label>
