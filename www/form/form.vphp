@@ -19,7 +19,7 @@
         <br>
         <select name="ParentID" id="parent_id"><?php v($parent_select) ?></select>
         <br>
-        <label>Структура подчиненных материалов:</label>
+        <label><?php t('Тип структуры:') ?></label>
         <br>
         <select name="type" id="type">
             <option value="0" <?php isval('cmsnav_type',0,'selected')?>>Стандартная структура</option>
@@ -31,17 +31,16 @@
         <div class="input-text"><input type="text" name="Name" id="Name" value="<?php iv('cmsnav_Name')?>"></div>
         <label>URL: (<a id="generateUrl" ><u>Сгенерировать</u></a>)</label>
         <div class="input-text"><input type="text" name="Url" id="Url" value="<?php iv('cmsnav_Url')?>"></div>
+
         <?php if( !isval('cmsmaterial_id')):?>
-            <label>Материал по умолчанию:</label>
+            <a target="_blank" class="nav_app_material_link" href="<?php module_url('creatematerial', 'cmsnav_id') ?>">
+                Создать материал для структуры
+            </a>
         <?php else:?>
-            <label>Материал по умолчанию(
-                <a class="btn_open_std_material" href="<?php url_base('material/form', 'cmsnav_MaterialID')?>"
-                   title="Открыть материал по умолчанию">Открыть</a>):
-            </label>
+            <a class="btn_open_std_material nav_app_material_link" href="<?php url_base('material/form', 'cmsnav_MaterialID')?>"
+               title="Открыть материал по умолчанию" target="_blank">Редактировать структуру</a>
         <?php endif?>
-        <div class="input-text">
-            <input type="text" name="std_material" id="std_material" value="<?php iv('cmsmaterial_Name')?>">
-        </div>
+
         <?php if( !isval( 'cmsnav_id')):?>
             <div title="Добавить новый элемент структуры сайта" class="right-align">
                 <input type="submit" value="Добавить" class="structure_submit_button" structure = "<?php iv('cmsnav_id') ?>"> <input type="button" class="cancel-button" value="Отмена">

@@ -61,6 +61,18 @@ class StructureApplication extends \samson\cms\App
             ->tree($tree->htmlTree($parent));
     }
 
+    public function __creatematerial($navID)
+    {
+        /** @var \samson\cms\web\navigation\CMSNav $navigation */
+        $navigation = null;
+        if (dbQuery('\samson\cms\web\navigation\CMSNav')->id($navID)->first($navigation)) {
+            $material = $navigation->createMaterial();
+            url()->redirect('material/form/'.$material);
+        } else {
+            url()->redirect('structure');
+        }
+    }
+
     /**
      * Controller for showing tree
      * @return array Ajax response

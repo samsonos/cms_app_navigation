@@ -271,4 +271,27 @@ class CMSNav extends \samson\cms\CMSNav
             }
         }
     }
+
+    public function createMaterial()
+    {
+        $material = new \samson\activerecord\material(false);
+        $material->Name = $this->Name.' - material';
+        $material->Active = 1;
+        $material->Url = generate_password(10);
+        $material->Published = 0;
+        $material->save();
+
+        /** @var CMSNav $seoNav */
+        $seoNav = null;
+
+        if (dbQuery($this->class_name)->cond('Url', '__seo')->first($seoNav)) {
+            $strmat = new \samson\activerecord\structurematerial(false);
+            $strmat->MaterialID = $material->id;
+            $strmat->StructureID = $seoNav->id;
+            $strmat->Active = 1;
+            $strmat->save();
+        }
+
+        return $material->id;
+    }
 }
