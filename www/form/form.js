@@ -17,6 +17,7 @@ function CMSNavigationFormInit(tree) {
     // Указатель на текущий набор кнопок управления
     var ControlElement = null;
 
+    var parent;
     /**
     * обработчик добавления новой записи
     */
@@ -35,9 +36,8 @@ function CMSNavigationFormInit(tree) {
             });
             s(".form2").ajaxSubmit(function(response) {
                 s('.sub_menu').html(response.sub_menu);
-
-                s(".tree-container").html(response.tree);
-                CMSNavigationFormInit(s(".tree-container"));
+                parent.html(response.tree);
+                CMSNavigationFormInit(parent);
                 AppNavigationInitSubMenu();
                 tb.close();
 
@@ -47,7 +47,8 @@ function CMSNavigationFormInit(tree) {
             });
             //CMSNavigationFormInit();
         },
-        beforeHandler: function() {
+        beforeHandler: function(link) {
+            parent = link.parent(' sjs-treeview');
             loader.show('Загрузка формы', true);
             return true;
         },
@@ -69,15 +70,16 @@ function CMSNavigationFormInit(tree) {
             });
             s(".form2").ajaxSubmit(function(response) {
                 s('.sub_menu').html(response.sub_menu);
-                s(".tree-container").html(response.tree);
-                CMSNavigationFormInit(s(".tree-container"));
+                parent.html(response.tree);
+                CMSNavigationFormInit(parent);
                 tb.close();
             });
             s(".cancel-button").click(function() {
                 tb.close();
             });
         },
-        beforeHandler: function() {
+        beforeHandler: function(link) {
+            parent = link.parent(' sjs-treeview');
             loader.show('Загрузка формы', true);
             return true;
         },
@@ -90,11 +92,12 @@ function CMSNavigationFormInit(tree) {
      * обработка удаления
      */
     s(".control.delete", tree).ajaxClick(function(response) {
-        s(".tree-container").html(response.tree);
-        CMSNavigationFormInit(s(".tree-container"));
+        parent.html(response.tree);
+        CMSNavigationFormInit(parent);
         s('.sub_menu').html(response.sub_menu);
         loader.hide();
-    }, function() {
+    }, function(link) {
+        parent = link.parent(' sjs-treeview');
         if (confirm("Вы уверены, что хотите безвозвратно удалить структуру?")) {
             loader.show('Удаление структуры', true);
             return true;

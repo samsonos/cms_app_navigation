@@ -32,13 +32,15 @@
         <label>URL: (<a id="generateUrl" ><u>Сгенерировать</u></a>)</label>
         <div class="input-text"><input type="text" name="Url" id="Url" value="<?php iv('cmsnav_Url')?>"></div>
 
-        <?php if( !isval('cmsmaterial_id')):?>
-            <a target="_blank" class="nav_app_material_link" href="<?php module_url('creatematerial', 'cmsnav_id') ?>">
-                Создать материал для структуры
-            </a>
-        <?php else:?>
-            <a class="btn_open_std_material nav_app_material_link" href="<?php url_base('material/form', 'cmsnav_MaterialID')?>"
-               title="Открыть материал по умолчанию" target="_blank">Редактировать структуру</a>
+        <?php if (isval('cmsnav_id')) :?>
+            <?php if( !isval('cmsmaterial_id')):?>
+                <a target="_blank" class="nav_app_material_link" href="<?php module_url('creatematerial', 'cmsnav_id') ?>">
+                    Создать материал для структуры
+                </a>
+            <?php else:?>
+                <a class="btn_open_std_material nav_app_material_link" href="<?php url_base('material/form', 'cmsnav_MaterialID')?>"
+                   title="Открыть материал по умолчанию" target="_blank">Редактировать структуру</a>
+            <?php endif?>
         <?php endif?>
 
         <?php if( !isval( 'cmsnav_id')):?>

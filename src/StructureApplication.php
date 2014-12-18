@@ -33,10 +33,16 @@ class StructureApplication extends \samson\cms\App
             // Render material rows
             $rows_html = '';
             foreach ($db_navs as $db_nav) {
-                $rows_html .= $this->view('main/row')
-                    ->nav($db_nav)
-                    ->user($db_nav->onetoone['_user'])
-                ->output();
+                if (isset($db_nav->onetoone['_user'])) {
+                    $rows_html .= $this->view('main/row')
+                        ->nav($db_nav)
+                        ->user($db_nav->onetoone['_user'])
+                        ->output();
+                } else {
+                    $rows_html .= $this->view('main/row')
+                        ->nav($db_nav)
+                        ->output();
+                }
             }
 
             // Add empty rows if needs
@@ -67,6 +73,8 @@ class StructureApplication extends \samson\cms\App
         $navigation = null;
         if (dbQuery('\samson\cms\web\navigation\CMSNav')->id($navID)->first($navigation)) {
             $material = $navigation->createMaterial();
+            $navigation->MaterialID = $material;
+            $navigation->save();
             url()->redirect('material/form/'.$material);
         } else {
             url()->redirect('structure');
@@ -94,11 +102,10 @@ class StructureApplication extends \samson\cms\App
      * Opening form for editing or creating new structure
      * @param int $parentID Identifier of parent structure for tag select
      * @param int $navID Current structure identifier for editing
-     * @param int $currentMainNavID Identifier of structure which tree is opened
      *
      * @return array Ajax response
      */
-    public function __async_form($parentID = 0, $navID = 0, $currentMainNavID = 0)
+    public function __async_form($parentID = 0, $navID = 0)
     {
         /** @var CMSNav $data */
         $data = null;
@@ -107,13 +114,21 @@ class StructureApplication extends \samson\cms\App
             if (dbQuery('\samson\cms\CMSMaterial')->id($data->MaterialID)->first($mat)) {
                 m()->cmsmaterial($mat);
             }
+            $parent_id = $parentID;
+        } else {
+            $nav = dbQuery('\samson\cms\web\navigation\CMSNav')->id($parentID)->first();
+            if (isset($nav->parent()->id)) {
+                $parent_id = $nav->parent()->id;
+            } else {
+                $parent_id = 0;
+            }
         }
 
         // Render form
         $html = m()->view('form/form')
             ->parent_select(CMSNav::createSelect($parentID))
             ->cmsnav($data)
-            ->parent_id($currentMainNavID)
+            ->parent_id($parent_id)
             ->output();
 
         return array(
