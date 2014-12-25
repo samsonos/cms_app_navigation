@@ -116,11 +116,11 @@ class StructureApplication extends \samson\cms\App
             }
             $parent_id = $parentID;
         } else {
-            $nav = dbQuery('\samson\cms\web\navigation\CMSNav')->id($parentID)->first();
-            if (isset($nav->parent()->id)) {
-                $parent_id = $nav->parent()->id;
-            } else {
-                $parent_id = 0;
+            $parent_id = 0;
+            if (dbQuery('\samson\cms\web\navigation\CMSNav')->id($parentID)->first($nav)) {
+                if (isset($nav->parent()->id)) {
+                    $parent_id = $nav->parent()->id;
+                }
             }
         }
 

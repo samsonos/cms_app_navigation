@@ -18,6 +18,7 @@
     },
     "require":{
         "samsonos/cms_app":"*",
+		"samsonos/cms_app_field":"*",
         "samsonos/php_treeview":"*"
     },
     "require-dev": {
