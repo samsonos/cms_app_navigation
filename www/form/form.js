@@ -146,7 +146,10 @@ function CMSNavigationFormInit(tree) {
         return true;
     });
 
-    s(".open", tree).ajaxClick(function(response) {
+    s('.open', s('.noChildren', tree)).click(function() {
+        return false;
+    });
+    s(".open", s('.hasChildren', tree)).ajaxClick(function(response) {
         s("#data").html(response.tree);
         CMSNavigationFormInit(s("#data"));
         s('.sub_menu').html(response.sub_menu);
