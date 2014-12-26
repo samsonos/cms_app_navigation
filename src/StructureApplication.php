@@ -50,7 +50,7 @@ class StructureApplication extends \samson\cms\App
                 $rows_html .= $this->view('main/row')->output();
             }
             // Render main template
-            return $this->rows($rows_html)->output('main/index');
+            return $this->view('main/index')->rows($rows_html)->output();
         }
     }
 
