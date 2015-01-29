@@ -9,6 +9,13 @@
         </div>
     <?php endif?>
 
+    <?php if (isval('cmsnav_system', 1)) { ?>
+        <label title="<?php t('Структура не может быть удалена') ?>">
+            <b><?php t('*Системная структура') ?></b>
+        </label>
+        <br>
+    <?php } ?>
+
     <input type="hidden" name="Active" id="Active" value="1">
     <input type="hidden" name="Created" id="Created" value="<?php iv('cmsnav_Created') ?>">
     <input type="hidden" name="StructureID" id="StructureID" value="<?php iv('cmsnav_id') ?>">
