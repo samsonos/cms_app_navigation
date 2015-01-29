@@ -25,11 +25,14 @@ if( isset( $db_structure) ) $db_structure = & $db_structure;
            title="Редактировать данный ЭСС">
         </a>
 
-        <!-- DELETE LINK !-->
-        <a class="control delete icon2 icon_16x16 icon-delete"
-           href="<?php url_base('structure/delete/', $db_structure->id, 'structure/tree', 'parentid')?>"
-           title="Удалить данный ЭСС">
-        </a>
+        <?php if (isval('db_structure_system', 0)) { ?>
+            <!-- DELETE LINK !-->
+            <a class="control delete icon2 icon_16x16 icon-delete"
+               href="<?php url_base('structure/delete/', $db_structure->id, 'structure/tree', 'parentid')?>"
+               title="Удалить данный ЭСС">
+            </a>
+        <?php } ?>
+
 
         <!-- PRIORITY UP LINK !-->
         <a class="control move-up icon2 icon_16x16 icon-moveup"
