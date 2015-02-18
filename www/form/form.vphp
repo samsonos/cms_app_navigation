@@ -17,7 +17,6 @@
     <?php } ?>
 
     <input type="hidden" name="Active" id="Active" value="1">
-    <input type="hidden" name="Created" id="Created" value="<?php iv('cmsnav_Created') ?>">
     <input type="hidden" name="StructureID" id="StructureID" value="<?php iv('cmsnav_id') ?>">
     <input type="hidden" name="MaterialID" id="std_material_id" value="<?php iv('cmsnav_MaterialID')?>">
     <input type="hidden" name="UserID" id="std_user_id" value="<?php echo m('social')->user()->id; ?>">

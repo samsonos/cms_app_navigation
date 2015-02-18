@@ -181,6 +181,7 @@ class StructureApplication extends \samson\cms\App
         } else {
             // Create new structure
             $nav = new \samson\cms\web\navigation\CMSNav(false);
+            $nav->Created = date('Y-m-d H:m:s');
             $nav->fillFields();
         }
 
