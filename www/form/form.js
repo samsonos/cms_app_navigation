@@ -40,7 +40,9 @@ function CMSNavigationFormInit(tree) {
                 CMSNavigationFormInit(parent);
                 AppNavigationInitSubMenu();
                 tb.close();
-
+            }, function(form) {
+                s('input[type="submit"]', form).a('disabled', 'disabled');
+                return true;
             });
             s(".cancel-button").click(function() {
                 tb.close();
@@ -72,6 +74,7 @@ function CMSNavigationFormInit(tree) {
                 s('.sub_menu').html(response.sub_menu);
                 parent.html(response.tree);
                 CMSNavigationFormInit(parent);
+                AppNavigationInitSubMenu();
                 tb.close();
             });
             s(".cancel-button").click(function() {
@@ -95,6 +98,7 @@ function CMSNavigationFormInit(tree) {
         parent.html(response.tree);
         CMSNavigationFormInit(parent);
         s('.sub_menu').html(response.sub_menu);
+        AppNavigationInitSubMenu();
         loader.hide();
     }, function(link) {
         parent = link.parent(' sjs-treeview');
@@ -128,6 +132,7 @@ function CMSNavigationFormInit(tree) {
         s(".tree-container").html(response.tree);
         CMSNavigationFormInit(s(".tree-container"));
         s('.sub_menu').html(response.sub_menu);
+        AppNavigationInitSubMenu();
         loader.hide();
     }, function() {
         loader.show('Обновление дерева', true);
@@ -137,6 +142,7 @@ function CMSNavigationFormInit(tree) {
         s(".tree-container").html(response.tree);
         CMSNavigationFormInit(s(".tree-container"));
         s('.sub_menu').html(response.sub_menu);
+        AppNavigationInitSubMenu();
         s( '.structure-element' )
             .mouseover( function(el){ if(!ControlFormOpened) { s( '.control-buttons', el ).show(); ControlElement = el; } })
             .mouseout( 	function(el){ if(!ControlFormOpened) s( '.control-buttons', el ).hide(); });
@@ -184,6 +190,9 @@ function AppNavigationInitSubMenu() {
                 s(".tree-container").html(response.tree);
                 CMSNavigationFormInit(s(".tree-container"));
                 tb.close();
+            }, function(form) {
+                s('input[type="submit"]', form).a('disabled', 'disabled');
+                return true;
             });
             s(".cancel-button").click(function() {
                 tb.close();
