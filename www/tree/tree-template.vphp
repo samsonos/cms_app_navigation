@@ -5,8 +5,8 @@ if( isset( $db_structure) ) $db_structure = & $db_structure;
 
 <div class="structure-element">
     <a class="open"
-       href="<?php url_base('structure/showtree/', $db_structure->id, 'structure/rendermenu', $db_structure->id) ?>"
-       title="Окрыть ветку в новом окне">
+       href="<?php module_url('showtree', $db_structure->id, 'id', 'rendermenu', $db_structure->id) ?>"
+       title="<?php t('Открыть ветку в новом окне') ?>">
         <?php echo $db_structure->Name; ?>
     </a>
     <div class="control-buttons">
@@ -15,59 +15,59 @@ if( isset( $db_structure) ) $db_structure = & $db_structure;
 
         <!-- ADD LINK !-->
         <a class="control add icon2 icon_16x16 icon-add"
-           href="<?php url_base('structure/form/', $db_structure->id, 0, 'nav_id')?>"
-           title="Добавить подчинённый элемент структуры сайта">
+           href="<?php module_url('form', $db_structure->id, 0, 'nav_id')?>"
+           title="<?php t('Добавить подчинённый элемент структуры сайта') ?>">
         </a>
 
         <!-- EDIT LINK !-->
         <a class="control editstr icon2 icon_16x16 icon-edit"
-           href="<?php url_base('structure/form/', 'parentid', $db_structure->id, 'nav_id') ?>"
-           title="Редактировать данный ЭСС">
+           href="<?php module_url('form', 'parentid', $db_structure->id, 'nav_id') ?>"
+           title="<?php t('Редактировать данный ЭСС') ?>">
         </a>
 
         <?php if (isval('db_structure_system', 0)) { ?>
             <!-- DELETE LINK !-->
             <a class="control delete icon2 icon_16x16 icon-delete"
-               href="<?php url_base('structure/delete/', $db_structure->id, 'structure/tree', 'parentid')?>"
-               title="Удалить данный ЭСС">
+               href="<?php module_url('delete', $db_structure->id, 'id', 'tree', 'parentid')?>"
+               title="<?php t('Удалить данный ЭСС') ?>">
             </a>
         <?php } ?>
 
 
         <!-- PRIORITY UP LINK !-->
         <a class="control move-up icon2 icon_16x16 icon-moveup"
-           href="<?php url_base('structure/priority/',$db_structure->id, '1', 'structure/tree', 'nav_id')?>"
-           title="Переместить ЭСС выше по данной ветке">
+           href="<?php module_url('priority', $db_structure->id, '1', 'id',  'tree', 'nav_id')?>"
+           title="<?php t('Переместить ЭСС выше по данной ветке') ?>">
         </a>
 
         <!-- PRIORITY DOWN LINK !-->
         <a class="control move-down icon2 icon_16x16 icon-movedown"
-           href="<?php url_base('structure/priority/',$db_structure->id, '-1', 'structure/tree', 'nav_id')?>"
-           title="Переместить ЭСС ниже по данной ветке">
+           href="<?php module_url('priority', $db_structure->id, '-1', 'id', 'tree', 'nav_id')?>"
+           title="<?php t('Переместить ЭСС ниже по данной ветке') ?>">
         </a>
 
         <!-- SHOW FIELDS LINK !-->
         <a class="control fields icon2 icon_16x16 icon-add-field"
-           href="<?php url_base('field/list/',$db_structure->id)?>"
-           title="Управление полями ЭСС">
+           href="<?php url_base('field', 'list', $db_structure->id)?>"
+           title="<?php t('Управление полями ЭСС') ?>">
         </a>
 
         <!-- PERMISSIONS LINK !-->
         <a class="control permissions icon2 icon_16x16 icon-right"
-           href="<?php url_base('permission/ajax_form/',$db_structure->id)?>/0"
-           title="Управление правами для ЭСС">
+           href="<?php url_base('permission', 'ajax_form', $db_structure->id)?>/0"
+           title="<?php t('Управление правами для ЭСС') ?>">
         </a>
 
         <!-- NEW MATERIAL LINK !-->
         <a class="control add-material icon2 icon_16x16 icon-add-material"
-           href="<?php url_base('material/form/0/', $db_structure->id)?>"
-           title="Добавить материал к данному ЭСС">
+           href="<?php url_base('material', 'form', 0, $db_structure->id)?>"
+           title="<?php t('Добавить материал к данному ЭСС') ?>">
         </a>
 
         <!-- GO TO MATERIALS LINK !-->
         <a class="control materials icon2 icon_16x16 icon-material"
-           href="<?php url_base('material/',$db_structure->id)?>"
-           title="Перейти к материалам ЭСС">
+           href="<?php url_base('material',$db_structure->id)?>"
+           title="<?php t('Перейти к материалам ЭСС') ?>">
         </a>
     </div>
 </div>
