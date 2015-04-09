@@ -1,10 +1,10 @@
 <form method="post" class="form2" action="<?php module_url('save', 'cmsnav_id', 'tree', 'parent_id')?>" >
-    <div class="close-button" title="Закрыть форму"><input type="button" value="Х" class=""></div>
+    <div class="close-button" title="<?php t('Закрыть форму') ?>"><input type="button" value="Х" class=""></div>
     <?php if( !isval( 'cmsnav_id')):?>
-        <div class="header">Создание <span title="Элемент структуры сайта">ЭСС </span></div>
+        <div class="header"><?php t('Создание') ?> <span title="<?php t('Элемент структуры сайта') ?>"><?php t('ЭСС') ?> </span></div>
     <?php else:?>
-        <div class="header">Редактирование
-            <span title="Элемент структуры сайта">ЭСС:</span>
+        <div class="header"><?php t('Редактирование') ?>
+            <span title="<?php t('Элемент структуры сайта') ?>"><?php t('ЭСС') ?>:</span>
             <span class="bold"><?php v('cmsnav_Name') ?></span>
         </div>
     <?php endif?>
@@ -21,41 +21,41 @@
     <input type="hidden" name="MaterialID" id="std_material_id" value="<?php iv('cmsnav_MaterialID')?>">
     <input type="hidden" name="UserID" id="std_user_id" value="<?php echo m('social')->user()->id; ?>">
     <div>
-        <label>Родитель:</label>
+        <label><?php t('Родитель') ?>:</label>
         <br>
         <select name="ParentID" id="parent_id"><?php v($parent_select) ?></select>
         <br>
-        <label><?php t('Тип структуры:') ?></label>
+        <label><?php t('Тип структуры') ?>:</label>
         <br>
         <select name="type" id="type">
-            <option value="0" <?php isval('cmsnav_type',0,'selected')?>>Стандартная структура</option>
-            <option value="1" <?php isval('cmsnav_type',1,'selected')?>>Структура подчиненных материалов</option>
-            <option value="2" <?php isval('cmsnav_type',2,'selected')?>>Структура таблицы</option>
+            <option value="0" <?php isval('cmsnav_type',0,'selected')?>><?php t('Стандартная структура') ?></option>
+            <option value="1" <?php isval('cmsnav_type',1,'selected')?>><?php t('Структура подчиненных материалов') ?></option>
+            <option value="2" <?php isval('cmsnav_type',2,'selected')?>><?php t('Структура таблицы') ?></option>
         </select>
         <br>
-        <label>Наименование:</label>
+        <label><?php t('Наименование') ?>:</label>
         <div class="input-text"><input type="text" name="Name" id="Name" value="<?php iv('cmsnav_Name')?>"></div>
-        <label>URL: (<a id="generateUrl" ><u>Сгенерировать</u></a>)</label>
+        <label>URL: (<a id="generateUrl" ><u><?php t('Сгенерировать') ?></u></a>)</label>
         <div class="input-text"><input type="text" name="Url" id="Url" value="<?php iv('cmsnav_Url')?>"></div>
 
         <?php if (isval('cmsnav_id')) :?>
             <?php if( !isval('cmsmaterial_id')):?>
                 <a target="_blank" class="nav_app_material_link" href="<?php module_url('creatematerial', 'cmsnav_id') ?>">
-                    Создать материал для структуры
+                    <?php t('Создать материал для структуры') ?>
                 </a>
             <?php else:?>
                 <a class="btn_open_std_material nav_app_material_link" href="<?php url_base('material/form', 'cmsnav_MaterialID')?>"
-                   title="Открыть материал по умолчанию" target="_blank">Редактировать структуру</a>
+                   title="<?php t('Открыть материал по умолчанию') ?>" target="_blank"><?php t('Редактировать структуру') ?></a>
             <?php endif?>
         <?php endif?>
 
         <?php if( !isval( 'cmsnav_id')):?>
-            <div title="Добавить новый элемент структуры сайта" class="right-align">
-                <input type="submit" value="Добавить" class="structure_submit_button" structure = "<?php iv('cmsnav_id') ?>"> <input type="button" class="cancel-button" value="Отмена">
+            <div title="<?php t('Добавить новый элемент структуры сайта') ?>" class="right-align">
+                <input type="submit" value="<?php t('Добавить') ?>" class="structure_submit_button" structure = "<?php iv('cmsnav_id') ?>"> <input type="button" class="cancel-button" value="<?php t('Отмена') ?>">
             </div>
         <?php else:?>
-            <div title="Сохранить элемент структуры сайта" class="right-align">
-                <input type="submit" value="Сохранить" class="structure_submit_button" structure = "<?php iv('cmsnav_id') ?>"> <input type="button" class="cancel-button" value="Отмена">
+            <div title="<?php t('Сохранить элемент структуры сайта') ?>" class="right-align">
+                <input type="submit" value="<?php t('Сохранить') ?>" class="structure_submit_button" structure = "<?php iv('cmsnav_id') ?>"> <input type="button" class="cancel-button" value="<?php t('Отмена') ?>">
             </div>
         <?php endif?>
     </div>
