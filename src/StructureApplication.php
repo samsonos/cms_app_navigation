@@ -12,7 +12,10 @@ use samson\cms\CMS;
 class StructureApplication extends \samson\cms\App
 {
     /** Application name */
-    public $app_name = 'Структура';
+    public $name = 'Структура';
+
+    /** Application icon */
+    public $icon = 'fa-cubes';
 
     /** Identifier */
     protected $id = 'structure';
