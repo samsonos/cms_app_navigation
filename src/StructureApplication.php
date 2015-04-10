@@ -15,7 +15,7 @@ class StructureApplication extends \samson\cms\App
     public $name = 'Структура';
 
     /** Application icon */
-    public $icon = 'fa-cubes';
+    public $icon = 'cubes';
 
     /** Identifier */
     protected $id = 'structure';
