@@ -1,10 +1,10 @@
 <li>
     <a class="sub_menu_a all <?php isnv('parentnav_id', 'active')?>" href="<?php module_url('showall', 'rendermenu') ?>">
-        <?php t('Все') ?>
+        <?php t('Список') ?>
     </a>
 </li><li>
     <a class="sub_menu_a <?php isv('form', 'active')?>" id="newSSE" href="<?php module_url( 'form', 'parentnav_id', 0, 'nav_id')?>">
-        <?php t('Новый ЭСС') ?>
+        <?php t('Новый') ?>
     </a>
 </li><li>
     <a class="sub_menu_a" href="<?php url_base( 'material/form', 0, 'parentnav_id' )?>">
