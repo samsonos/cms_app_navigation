@@ -2,7 +2,7 @@
 	<div class="time">
         <?php vdate('nav_Modyfied', 'd.m.y')?>
     </div><div class="item">
-		<a href="<?php url_base('structure','nav_id')?>"><?php iv('nav_Name') ?></a>
+		<a href="<?php url_base('id','nav_id')?>"><?php iv('nav_Name') ?></a>
 	</div><div class="user">
 		<span class="creator"><?php iv('user_SName') ?> <?php iv('user_FName') ?></span>
 	</div>
