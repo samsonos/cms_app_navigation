@@ -158,7 +158,7 @@ class StructureApplication extends \samson\cms\App
 
         $tree = new \samson\treeview\SamsonTree('tree/tree-template', 0, 'structure/addchildren');
 
-        $sub_menu = m()->view('main/sub_menu')->parentnav_id($currentMainNavID)->nav_id($currentMainNavID)->output();
+        $sub_menu = $this->view('sub_menu')->parentnav_id($currentMainNavID)->nav_id($currentMainNavID)->output();
 
         // return Ajax response
         return array(
