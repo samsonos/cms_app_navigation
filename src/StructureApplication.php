@@ -12,7 +12,10 @@ use samson\cms\CMS;
 class StructureApplication extends \samson\cms\App
 {
     /** Application name */
-    public $app_name = 'Структура';
+    public $name = 'Структура';
+
+    /** Application icon */
+    public $icon = 'cubes';
 
     /** Identifier */
     protected $id = 'structure';
@@ -63,7 +66,7 @@ class StructureApplication extends \samson\cms\App
         $tree = new \samson\treeview\SamsonTree('tree/tree-template', 0, 'structure/addchildren');
         // Установим дерево ЭСС
         m()->view('index')
-            ->title('Элементы структуры содержания сайта!')
+            ->title(t('Элементы структуры содержания сайта', true))
             ->tree($tree->htmlTree($parent));
     }
 
@@ -89,7 +92,7 @@ class StructureApplication extends \samson\cms\App
         $parent = CMSNav::fullTree();
         $tree = new \samson\treeview\SamsonTree('tree/tree-template', 0, 'structure/addchildren');
         $html = m()->view('index')
-            ->title('Элементы структуры содержания сайта')
+            ->title(t('Элементы структуры содержания сайта', true))
             ->tree($tree->htmlTree($parent))
             ->output();
         return array(
@@ -247,7 +250,7 @@ class StructureApplication extends \samson\cms\App
         $tree = new \samson\treeview\SamsonTree('tree/tree-template', 0, 'structure/addchildren');
 
         $html = m()->view('index')
-            ->title('Элементы структуры содержания сайта')
+            ->title(t('Элементы структуры содержания сайта', true))
             ->parent($db_structure)
             ->tree($tree->htmlTree($db_structure))
             ->output();

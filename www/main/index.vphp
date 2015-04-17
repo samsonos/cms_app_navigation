@@ -1,7 +1,14 @@
-<div class="bars_on_m structure">
-	<div class="t t_with_i i_structure">
-		Что нового в структуре сайта:
-		<a class="on_b_page" href="structure" title="Перейти к структуре cайта">Перейти к структуре сайта</a>
-	</div>	
-	<div class="content"><?php v('rows')?></div>	
+<div class="template-block template-block-main">
+    <div class="template-block-header clearfix">
+        <div class="template-block-header-title">
+            <a href="<?php url_base('structure')?>" class="icon2 icon-structure"></a>
+            <?php t('Что нового в структуре сайта')?>
+        </div>
+        <div class="template-block-header-controls">
+            <div class="icon2 icon2-times"></div>
+        </div>
+    </div>
+    <div class="template-block-content">
+        <?php v('rows')?>
+    </div>
 </div>
