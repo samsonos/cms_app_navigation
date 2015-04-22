@@ -1,4 +1,4 @@
-<section class="structure">
+<section class="structure" id="<?php iv('id')?>">
     <article class="about">
         <p>
             Раздел "Структура" предоставляет все необходимые средства для создания структуры проекта любой сложности и иерархии.
