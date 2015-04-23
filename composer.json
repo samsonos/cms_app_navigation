@@ -17,13 +17,11 @@
         }
     },
     "require":{
-        "samsonos/cms_app":"*",
+        "samsoncms/application":"*",
 		"samsonos/cms_app_field":"*",
         "samsonos/php_treeview":"*"
     },
     "require-dev": {
-        "satooshi/php-coveralls": "dev-master",
-        "squizlabs/php_codesniffer": "2.0.*@dev",
         "phpunit/phpunit": "4.2.*"
     }
 }

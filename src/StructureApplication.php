@@ -9,7 +9,7 @@ use samson\cms\CMS;
  * @author Vitaly Egorov <egorov@samsonos.com>
  */
 
-class StructureApplication extends \samson\cms\App
+class StructureApplication extends \samsoncms\Application
 {
     /** Application name */
     public $name = 'Структура';
