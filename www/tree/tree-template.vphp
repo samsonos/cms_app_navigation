@@ -60,7 +60,7 @@ if( isset( $db_structure) ) $db_structure = & $db_structure;
 
         <!-- NEW MATERIAL LINK !-->
         <a class="control add-material icon2 icon_16x16 icon-add-material"
-           href="<?php url_base('material', 'form', 0, $db_structure->id)?>"
+           href="<?php url_base('material', 'new', $db_structure->id)?>"
            title="<?php t('Добавить материал к данному ЭСС') ?>">
         </a>
 
