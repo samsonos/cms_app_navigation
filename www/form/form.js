@@ -51,7 +51,7 @@ function CMSNavigationFormInit(tree) {
         },
         beforeHandler: function(link) {
             parent = link.parent(' sjs-treeview');
-            loader.show('Загрузка формы', true);
+            loader.show(s('#loader-text').html(), true);
             return true;
         },
         responseHandler: function() {
@@ -83,7 +83,7 @@ function CMSNavigationFormInit(tree) {
         },
         beforeHandler: function(link) {
             parent = link.parent(' sjs-treeview');
-            loader.show('Загрузка формы', true);
+            loader.show(s('#loader-text').html(), true);
             return true;
         },
         responseHandler: function() {
@@ -116,7 +116,7 @@ function CMSNavigationFormInit(tree) {
             fieldForm(response);
         },
         beforeHandler: function() {
-            loader.show('Загрузка формы', true);
+            loader.show(s('#loader-text').html(), true);
             return true;
         },
         responseHandler: function() {
@@ -199,7 +199,7 @@ function AppNavigationInitSubMenu() {
             });
         },
         beforeHandler: function() {
-            loader.show('Загрузка формы', true);
+            loader.show(s('#loader-text').html(), true);
             return true;
         },
         responseHandler: function() {
