@@ -89,8 +89,16 @@ class CMSNav extends \samson\cms\CMSNav
     {
         // Fill the fields from $_POST array
         foreach ($_POST as $key => $val) {
-            if ($key != 'StructureID') {
-                $this[$key]=$val;
+            
+            // Get int value form field parent id
+            if ($key == 'ParentID') {
+                
+                $this[$key] = intval($val);
+                
+                // Get other fields
+            } elseif ($key != 'StructureID') {
+                
+                $this[$key] = $val;
             }
         }
 
