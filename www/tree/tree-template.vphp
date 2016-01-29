@@ -15,20 +15,20 @@ if( isset( $db_structure) ) $db_structure = & $db_structure;
 
         <!-- ADD LINK !-->
         <a class="control add icon2 icon_16x16 icon-add"
-           href="<?php module_url('form', $db_structure->id, 0, 'nav_id')?>"
+           href="<?php module_url('form', $db_structure->id, 'nav_id')?>"
            title="<?php t('Добавить подчинённый элемент структуры сайта') ?>">
         </a>
 
         <!-- EDIT LINK !-->
         <a class="control editstr icon2 icon_16x16 icon-edit"
-           href="<?php module_url('form', 'parentid', $db_structure->id, 'nav_id') ?>"
+           href="<?php module_url('form', 'parentid', $db_structure->id) ?>"
            title="<?php t('Редактировать данный ЭСС') ?>">
         </a>
 
         <?php if (isval('db_structure_system', 0)) { ?>
             <!-- DELETE LINK !-->
             <a class="control delete icon2 icon_16x16 icon-delete"
-               href="<?php module_url('delete', $db_structure->id, 'id', 'tree', 'parentid')?>"
+               href="<?php module_url('delete', $db_structure->id, 'parentid')?>"
                title="<?php t('Удалить данный ЭСС') ?>">
             </a>
         <?php } ?>
@@ -36,13 +36,13 @@ if( isset( $db_structure) ) $db_structure = & $db_structure;
 
         <!-- PRIORITY UP LINK !-->
         <a class="control move-up icon2 icon_16x16 icon-moveup"
-           href="<?php module_url('priority', $db_structure->id, '1', 'id',  'tree', 'nav_id')?>"
+           href="<?php module_url('priority', $db_structure->id, '1', 'nav_id')?>"
            title="<?php t('Переместить ЭСС выше по данной ветке') ?>">
         </a>
 
         <!-- PRIORITY DOWN LINK !-->
         <a class="control move-down icon2 icon_16x16 icon-movedown"
-           href="<?php module_url('priority', $db_structure->id, '-1', 'id', 'tree', 'nav_id')?>"
+           href="<?php module_url('priority', $db_structure->id, '-1', 'nav_id')?>"
            title="<?php t('Переместить ЭСС ниже по данной ветке') ?>">
         </a>
 

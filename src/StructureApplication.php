@@ -78,7 +78,7 @@ class StructureApplication extends \samsoncms\Application
             $material = $navigation->createMaterial();
             $navigation->MaterialID = $material;
             $navigation->save();
-            url()->redirect('material/form/'.$material);
+            url()->redirect('cms/material/form/'.$material);
         } else {
             url()->redirect('structure');
         }
@@ -173,7 +173,7 @@ class StructureApplication extends \samsoncms\Application
      * @param int $navID structure identifier
      * @return array Ajax response
      */
-    public function __async_save($navID = 0)
+    public function __async_save($navID = 0, $parentId = 0)
     {
         /** @var \samson\cms\web\navigation\CMSNav $data */
         $data = null;
@@ -189,7 +189,7 @@ class StructureApplication extends \samsoncms\Application
         }
 
         // return Ajax response
-        return array('status'=>1);
+        return $this->__async_tree($parentId);
     }
 
     /**
@@ -199,7 +199,7 @@ class StructureApplication extends \samsoncms\Application
      *
      * @return array
      */
-    public function __async_delete($navID = 0)
+    public function __async_delete($navID = 0, $parentId = 0)
     {
         $data = null;
         $response = array ('status'=>0);
@@ -209,7 +209,8 @@ class StructureApplication extends \samsoncms\Application
             $response['status'] = 1;
         }
 
-        return $response;
+        // return Ajax response
+        return $this->__async_tree($parentId);
     }
 
     /**
@@ -220,18 +221,19 @@ class StructureApplication extends \samsoncms\Application
      *
      * @return array - AJAX - response
      */
-    public function __async_priority($navID = 0, $direction)
+    public function __async_priority($navID = 0, $direction = 1, $parentId = 0)
     {
         /** @var CMSNav $data */
         $data = null;
-        $response = array ('status'=>0);
+        $response = array('status' => 0);
 
         if (dbQuery('\samson\cms\web\navigation\CMSNav')->id($navID)->first($data)) {
             $data->priority($direction);
             $response['status'] = 1;
         }
 
-        return $response;
+        // return Ajax response
+        return $this->__async_tree($parentId);
     }
 
     /**

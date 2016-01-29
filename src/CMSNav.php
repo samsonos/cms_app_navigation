@@ -41,7 +41,7 @@ class CMSNav extends \samson\cms\CMSNav
         if (dbQuery(__CLASS__)->StructureID($parentID)->first($data)) {
             $select .= '<option title="'.$data->Name.'" selected value="'.$data->id.'">'.$data->Name.'</option>';
         } else {
-            $select .= '<option title="' . t('Не выбрано', true) . '" value="' . t('Не выбрано', true) . '">'
+            $select .= '<option title="' . t('Не выбрано', true) . '" value="">'
                 . t('Не выбрано', true) . '</option>';
         }
 
@@ -293,7 +293,7 @@ class CMSNav extends \samson\cms\CMSNav
         /** @var CMSNav $seoNav */
         $seoNav = null;
 
-        if (dbQuery($this->class_name)->cond('Url', '__seo')->first($seoNav)) {
+        if (dbQuery('structure')->cond('Url', '__seo')->first($seoNav)) {
             $strmat = new \samson\activerecord\structurematerial(false);
             $strmat->MaterialID = $material->id;
             $strmat->StructureID = $seoNav->id;
