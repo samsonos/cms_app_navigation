@@ -1,4 +1,4 @@
-<form method="post" class="form2" action="<?php module_url('save', 'cmsnav_id', 'tree', 'parent_id')?>" >
+<form method="post" class="form2" action="<?php module_url('save', 'cmsnav_id', 'parent_id')?>" >
     <div class="close-button" title="<?php t('Закрыть форму') ?>"><input type="button" value="Х" class=""></div>
     <?php if( !isval( 'cmsnav_id')):?>
         <div class="header"><?php t('Создание') ?> <span title="<?php t('Элемент структуры сайта') ?>"><?php t('ЭСС') ?> </span></div>
