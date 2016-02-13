@@ -193,6 +193,34 @@ class StructureApplication extends \samsoncms\Application
     }
 
     /**
+     * Saving data about generation and output the application of structure
+     * @param int $navID structure identifier
+     * @return array Ajax response
+     */
+    public function __async_handle_application($navID = 0)
+    {
+        /** @var \samson\cms\web\navigation\CMSNav $data */
+        $data = null;
+
+        $generate = (int)$_REQUEST['generate'];
+
+        // If not generate structure then set output to false
+        $output = $generate === 0 ? 0 : (int)$_REQUEST['output'];
+
+        // Get structure and set values
+        if (dbQuery('\samson\cms\web\navigation\CMSNav')->StructureID($navID)->first($data)) {
+
+            // Save
+            $data->applicationOutput = $output;
+            $data->applicationGenerate = $generate;
+            $data->save();
+
+            return array('status' => 1);
+        }
+        return array('status' => 0);
+    }
+
+    /**
      * @param int $navID - идентификатор структуры
      *
      * удаление выбранной структуры из таблицы

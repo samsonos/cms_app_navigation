@@ -41,7 +41,7 @@ class CMSNav extends \samson\cms\CMSNav
         if (dbQuery(__CLASS__)->StructureID($parentID)->first($data)) {
             $select .= '<option title="'.$data->Name.'" selected value="'.$data->id.'">'.$data->Name.'</option>';
         } else {
-            $select .= '<option title="' . t('Не выбрано', true) . '" value="">'
+            $select .= '<option title="' . t('Не выбрано', true) . '" value="NULL">'
                 . t('Не выбрано', true) . '</option>';
         }
 
@@ -91,9 +91,9 @@ class CMSNav extends \samson\cms\CMSNav
         foreach ($_POST as $key => $val) {
             
             // Get int value form field parent id
-            if ($key == 'ParentID') {
+            if ($key == 'ParentID' && $val == 0) {
                 
-                $this[$key] = intval($val);
+                $this[$key] = null;
                 
                 // Get other fields
             } elseif ($key != 'StructureID') {
