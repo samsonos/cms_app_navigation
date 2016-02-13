@@ -21,3 +21,4 @@ Following this line, all SamsonPHP classes and functions would be available.
 For further information read [Official SamsonPHP Wiki](https://github.com/samsonos/php_core/wiki)
 
 Developed by [SamsonOS](http://samsonos.com/)    
+ 
