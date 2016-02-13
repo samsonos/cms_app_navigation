@@ -38,6 +38,13 @@
         <label>URL: (<a id="generateUrl" ><u><?php t('Сгенерировать') ?></u></a>)</label>
         <div class="input-text"><input type="text" name="Url" id="Url" value="<?php iv('cmsnav_Url')?>"></div>
 
+        <label><?php t('Генерировать приложение') ?>: <input type="checkbox" <?php isval('cmsnav_applicationGenerate', 1, 'checked') ?> value="true" name="generate-application" id="generate-application" data-href-handler="<?php module_url('handle_application', 'cmsnav_id') ?>"></label>
+        <br>
+        <div class="block-show-output-application" <?php isval('cmsnav_applicationGenerate', 0, 'style="display: none"') ?>>
+            <label><?php t('Показывать приложение') ?>: <input type="checkbox" <?php isval('cmsnav_applicationOutput', 1, 'checked') ?> value="true" name="output-application" id="output-application"></label>
+            <br>
+        </div>
+
         <?php if (isval('cmsnav_id')) :?>
             <?php if( !isval('cmsmaterial_id')):?>
                 <a target="_blank" class="nav_app_material_link" href="<?php module_url('creatematerial', 'cmsnav_id') ?>">
