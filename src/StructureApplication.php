@@ -48,6 +48,7 @@ class StructureApplication extends \samsoncms\Application
                 }
             }
 
+
             // Add empty rows if needs
             for ($i = sizeof($db_navs); $i < 5; $i++) {
                 $rows_html .= $this->view('main/row')->output();
@@ -175,6 +176,7 @@ class StructureApplication extends \samsoncms\Application
      */
     public function __async_save($navID = 0, $parentId = 0)
     {
+
         /** @var \samson\cms\web\navigation\CMSNav $data */
         $data = null;
 
@@ -185,6 +187,7 @@ class StructureApplication extends \samsoncms\Application
             // Create new structure
             $nav = new \samson\cms\web\navigation\CMSNav(false);
             $nav->Created = date('Y-m-d H:m:s');
+
             $nav->fillFields();
         }
 
