@@ -107,6 +107,9 @@ class CMSNav extends \samson\cms\CMSNav
         $this['applicationOutput'] = isset($_POST['output-application'])&&($_POST['output-application'] == true) ? 1 : 0;
         $this['applicationRenderMain'] = isset($_POST['render-main-application'])&&($_POST['render-main-application'] == true) ? 1 : 0;
 
+        // If application need to generate then set system property to 1 or 0
+        $this['system'] = isset($_POST['generate-application'])&&($_POST['generate-application'] == true) ? 1: 0;
+
         // Save icon
         $icon = isset($_POST['icon-application']) ? filter_var($_POST['icon-application']) : null;
         if (strlen($icon) > 0) {
