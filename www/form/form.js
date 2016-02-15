@@ -67,7 +67,10 @@ function CMSNavigationFormInit(tree) {
         renderedHandler: function(response, tb) {
 
             var generateApplicationElement = s("#generate-application"),
-                outputApplicationElement = s("#output-application");
+                outputApplicationElement = s("#output-application"),
+                iconPreviewApplicationElement = s(".preview-icon-application"),
+                iconApplicationElement = s("#icon-application"),
+                faClasses = 'icon icon2 fa-2x icon2-';
 
             // Handle generate application checkbox
             generateApplicationElement.click(function(e) {
@@ -80,12 +83,11 @@ function CMSNavigationFormInit(tree) {
                 } else {
                     blockOutput.css('display', 'none');
                 }
-                saveDataApplication();
             });
 
-            // Handle output application checkbox
-            outputApplicationElement.click(function(e) {
-                saveDataApplication();
+            // Change icon of preview block
+            iconApplicationElement.change(function(e) {
+                s('span', iconPreviewApplicationElement).a('class', faClasses + e.val());
             });
 
             /**
