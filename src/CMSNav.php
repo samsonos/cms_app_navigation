@@ -41,7 +41,7 @@ class CMSNav extends \samson\cms\CMSNav
         if (dbQuery(__CLASS__)->StructureID($parentID)->first($data)) {
             $select .= '<option title="'.$data->Name.'" selected value="'.$data->id.'">'.$data->Name.'</option>';
         } else {
-            $select .= '<option title="' . t('Не выбрано', true) . '" value="' . t('Не выбрано', true) . '">'
+            $select .= '<option title="' . t('Не выбрано', true) . '" value="NULL">'
                 . t('Не выбрано', true) . '</option>';
         }
 
@@ -89,9 +89,28 @@ class CMSNav extends \samson\cms\CMSNav
     {
         // Fill the fields from $_POST array
         foreach ($_POST as $key => $val) {
-            if ($key != 'StructureID') {
-                $this[$key]=$val;
+            
+            // Get int value form field parent id
+            if ($key == 'ParentID' && $val == 0) {
+                
+                $this[$key] = null;
+                
+                // Get other fields
+            } elseif ($key != 'StructureID') {
+                
+                $this[$key] = $val;
             }
+        }
+
+        // Save data about application
+        $this['applicationGenerate'] = isset($_POST['generate-application'])&&($_POST['generate-application'] == true) ? 1 : 0;
+        $this['applicationOutput'] = isset($_POST['output-application'])&&($_POST['output-application'] == true) ? 1 : 0;
+        $this['applicationRenderMain'] = isset($_POST['render-main-application'])&&($_POST['render-main-application'] == true) ? 1 : 0;
+
+        // Save icon
+        $icon = isset($_POST['icon-application']) ? filter_var($_POST['icon-application']) : null;
+        if (strlen($icon) > 0) {
+            $this['applicationIcon'] = $icon;
         }
 
         // Save object
@@ -285,7 +304,7 @@ class CMSNav extends \samson\cms\CMSNav
         /** @var CMSNav $seoNav */
         $seoNav = null;
 
-        if (dbQuery($this->class_name)->cond('Url', '__seo')->first($seoNav)) {
+        if (dbQuery('structure')->cond('Url', '__seo')->first($seoNav)) {
             $strmat = new \samson\activerecord\structurematerial(false);
             $strmat->MaterialID = $material->id;
             $strmat->StructureID = $seoNav->id;

@@ -48,6 +48,7 @@ class StructureApplication extends \samsoncms\Application
                 }
             }
 
+
             // Add empty rows if needs
             for ($i = sizeof($db_navs); $i < 5; $i++) {
                 $rows_html .= $this->view('main/row')->output();
@@ -78,7 +79,7 @@ class StructureApplication extends \samsoncms\Application
             $material = $navigation->createMaterial();
             $navigation->MaterialID = $material;
             $navigation->save();
-            url()->redirect('material/form/'.$material);
+            url()->redirect('cms/material/form/'.$material);
         } else {
             url()->redirect('structure');
         }
@@ -173,8 +174,9 @@ class StructureApplication extends \samsoncms\Application
      * @param int $navID structure identifier
      * @return array Ajax response
      */
-    public function __async_save($navID = 0)
+    public function __async_save($navID = 0, $parentId = 0)
     {
+
         /** @var \samson\cms\web\navigation\CMSNav $data */
         $data = null;
 
@@ -185,11 +187,40 @@ class StructureApplication extends \samsoncms\Application
             // Create new structure
             $nav = new \samson\cms\web\navigation\CMSNav(false);
             $nav->Created = date('Y-m-d H:m:s');
+
             $nav->fillFields();
         }
 
         // return Ajax response
-        return array('status'=>1);
+        return $this->__async_tree($parentId);
+    }
+
+    /**
+     * Saving data about generation and output the application of structure
+     * @param int $navID structure identifier
+     * @return array Ajax response
+     */
+    public function __async_handle_application($navID = 0)
+    {
+        /** @var \samson\cms\web\navigation\CMSNav $data */
+        $data = null;
+
+        $generate = (int)$_REQUEST['generate'];
+
+        // If not generate structure then set output to false
+        $output = $generate === 0 ? 0 : (int)$_REQUEST['output'];
+
+        // Get structure and set values
+        if (dbQuery('\samson\cms\web\navigation\CMSNav')->StructureID($navID)->first($data)) {
+
+            // Save
+            $data->applicationOutput = $output;
+            $data->applicationGenerate = $generate;
+            $data->save();
+
+            return array('status' => 1);
+        }
+        return array('status' => 0);
     }
 
     /**
@@ -199,7 +230,7 @@ class StructureApplication extends \samsoncms\Application
      *
      * @return array
      */
-    public function __async_delete($navID = 0)
+    public function __async_delete($navID = 0, $parentId = 0)
     {
         $data = null;
         $response = array ('status'=>0);
@@ -209,7 +240,8 @@ class StructureApplication extends \samsoncms\Application
             $response['status'] = 1;
         }
 
-        return $response;
+        // return Ajax response
+        return $this->__async_tree($parentId);
     }
 
     /**
@@ -220,18 +252,19 @@ class StructureApplication extends \samsoncms\Application
      *
      * @return array - AJAX - response
      */
-    public function __async_priority($navID = 0, $direction)
+    public function __async_priority($navID = 0, $direction = 1, $parentId = 0)
     {
         /** @var CMSNav $data */
         $data = null;
-        $response = array ('status'=>0);
+        $response = array('status' => 0);
 
         if (dbQuery('\samson\cms\web\navigation\CMSNav')->id($navID)->first($data)) {
             $data->priority($direction);
             $response['status'] = 1;
         }
 
-        return $response;
+        // return Ajax response
+        return $this->__async_tree($parentId);
     }
 
     /**

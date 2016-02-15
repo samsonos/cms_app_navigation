@@ -51,7 +51,7 @@ function CMSNavigationFormInit(tree) {
         },
         beforeHandler: function(link) {
             parent = link.parent(' sjs-treeview');
-            loader.show('Загрузка формы', true);
+            loader.show(s('#loader-text').html(), true);
             return true;
         },
         responseHandler: function() {
@@ -65,6 +65,46 @@ function CMSNavigationFormInit(tree) {
     s(".control.editstr", tree).tinyboxAjax({
         html:'html',
         renderedHandler: function(response, tb) {
+
+            var generateApplicationElement = s("#generate-application"),
+                outputApplicationElement = s("#output-application"),
+                iconPreviewApplicationElement = s(".preview-icon-application"),
+                iconApplicationElement = s("#icon-application"),
+                faClasses = 'icon icon2 fa-2x icon2-';
+
+            // Handle generate application checkbox
+            generateApplicationElement.click(function(e) {
+                var value = e.DOMElement.checked,
+                    blockOutput = s('.block-show-output-application');
+
+                // If true show output block or hide it
+                if (value) {
+                    blockOutput.css('display', 'block');
+                } else {
+                    blockOutput.css('display', 'none');
+                }
+            });
+
+            // Change icon of preview block
+            iconApplicationElement.change(function(e) {
+                s('span', iconPreviewApplicationElement).a('class', faClasses + e.val());
+            });
+
+            /**
+             * Save data about handling the application
+             */
+            function saveDataApplication() {
+
+                // Save value of element
+                s.ajax(
+                    generateApplicationElement.a('data-href-handler')
+                    + '?' + 'generate='
+                    + ((!!generateApplicationElement.DOMElement.checked) + 0)
+                    + '&output='
+                    + ((!!outputApplicationElement.DOMElement.checked) + 0)
+                );
+            }
+
             s("#generateUrl").click(function(obj) {
                 if (confirm("Вы точно хотите сгенерировать адрес?")) {
                     s("#Url").val(s("#Name").translit());
@@ -83,7 +123,7 @@ function CMSNavigationFormInit(tree) {
         },
         beforeHandler: function(link) {
             parent = link.parent(' sjs-treeview');
-            loader.show('Загрузка формы', true);
+            loader.show(s('#loader-text').html(), true);
             return true;
         },
         responseHandler: function() {
@@ -91,6 +131,7 @@ function CMSNavigationFormInit(tree) {
             return true;
         }
     });
+
     /**
      * обработка удаления
      */
@@ -116,7 +157,7 @@ function CMSNavigationFormInit(tree) {
             fieldForm(response);
         },
         beforeHandler: function() {
-            loader.show('Загрузка формы', true);
+            loader.show(s('#loader-text').html(), true);
             return true;
         },
         responseHandler: function() {
@@ -170,6 +211,8 @@ function CMSNavigationFormInit(tree) {
 }
 
 function AppNavigationInitSubMenu() {
+
+
     /**
      * обработчик для кнопки "верхнего" меню (sub_menu)
      */
@@ -199,7 +242,7 @@ function AppNavigationInitSubMenu() {
             });
         },
         beforeHandler: function() {
-            loader.show('Загрузка формы', true);
+            loader.show(s('#loader-text').html(), true);
             return true;
         },
         responseHandler: function() {
