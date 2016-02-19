@@ -117,6 +117,10 @@ class CMSNav extends \samson\cms\CMSNav
             $this['applicationIcon'] = $icon;
         }
 
+        /** TODO: Authenticated user can be not instance of user table */
+        if (!$this->query->entity('\samson\activerecord\user')->where('user_id', $this->UserID)->first()) {
+            $this->UserID = 1;
+        }
         // Save object
         $this->save();
 
