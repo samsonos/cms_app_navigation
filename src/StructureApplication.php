@@ -38,12 +38,12 @@ class StructureApplication extends \samsoncms\Application
             foreach ($db_navs as $db_nav) {
                 if (isset($db_nav->onetoone['_user'])) {
                     $rows_html .= $this->view('main/row')
-                        ->nav($db_nav)
-                        ->user($db_nav->onetoone['_user'])
+                        ->set($db_nav, 'nav')
+                        ->set($db_nav->onetoone['_user'], 'user')
                         ->output();
                 } else {
                     $rows_html .= $this->view('main/row')
-                        ->nav($db_nav)
+                        ->set($db_nav, 'nav')
                         ->output();
                 }
             }
@@ -53,8 +53,9 @@ class StructureApplication extends \samsoncms\Application
             for ($i = sizeof($db_navs); $i < 5; $i++) {
                 $rows_html .= $this->view('main/row')->output();
             }
+
             // Render main template
-            return $this->view('main/index')->rows($rows_html)->output();
+            return $this->view('main/index')->set($rows_html, 'rows')->output();
         }
     }
 
@@ -65,10 +66,11 @@ class StructureApplication extends \samsoncms\Application
     {
         $parent = CMSNav::fullTree();
         $tree = new \samson\treeview\SamsonTree('tree/tree-template', 0, 'structure/addchildren');
+
         // Установим дерево ЭСС
         m()->view('index')
             ->title(t('Элементы структуры содержания сайта', true))
-            ->tree($tree->htmlTree($parent));
+            ->set($tree->htmlTree($parent), 'tree');
     }
 
     public function __creatematerial($navID)

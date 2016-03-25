@@ -69,7 +69,10 @@ function CMSNavigationFormInit(tree) {
             var generateApplicationElement = s("#generate-application"),
                 outputApplicationElement = s("#output-application"),
                 iconPreviewApplicationElement = s(".preview-icon-application"),
+                typeStructureElement = s(".type-of-structure"),
                 iconApplicationElement = s("#icon-application"),
+                allowTypeValues = [0], // That is all allowed values of select structure which can open applicaiton setting
+                applicationBlock = s('.application-setting'),
                 faClasses = 'icon icon2 fa-2x icon2-';
 
             // Handle generate application checkbox
@@ -90,19 +93,26 @@ function CMSNavigationFormInit(tree) {
                 s('span', iconPreviewApplicationElement).a('class', faClasses + e.val());
             });
 
-            /**
-             * Save data about handling the application
-             */
-            function saveDataApplication() {
+            // Set event on change type of structure
+            typeStructureElement.change(changeFormApplicationByTypeStructure);
 
-                // Save value of element
-                s.ajax(
-                    generateApplicationElement.a('data-href-handler')
-                    + '?' + 'generate='
-                    + ((!!generateApplicationElement.DOMElement.checked) + 0)
-                    + '&output='
-                    + ((!!outputApplicationElement.DOMElement.checked) + 0)
-                );
+            // Exec manually when the first loaded
+            changeFormApplicationByTypeStructure();
+
+            /**
+             * Show or hide application setting by structure type
+             */
+            function changeFormApplicationByTypeStructure() {
+                var value = typeStructureElement.val();
+
+                // If there is right value than open application setting
+                if (allowTypeValues.indexOf(parseInt(value)) !== -1) {
+                    applicationBlock.css('display', 'block');
+                } else {
+                    // Set manually false value of checkboxes
+                    generateApplicationElement.DOMElement.checked = false;
+                    applicationBlock.css('display', 'none');
+                }
             }
 
             s("#generateUrl").click(function(obj) {
