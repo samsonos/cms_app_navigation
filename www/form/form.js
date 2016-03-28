@@ -164,7 +164,7 @@ function CMSNavigationFormInit(tree) {
     s('.control.fields', tree).tinyboxAjax({
         html : 'html',
         renderedHandler: function(response, tb){
-            fieldForm(response);
+            fieldForm(response, tb);
         },
         beforeHandler: function() {
             loader.show(s('#loader-text').html(), true);
