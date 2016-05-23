@@ -62,7 +62,7 @@ class StructureApplication extends \samsoncms\Application
     /**
      * Default controller
      */
-    public function __HANDLER()
+    public function __HANDLER($page = null)
     {
         $parent = CMSNav::fullTree();
         $tree = new \samson\treeview\SamsonTree('tree/tree-template', 0, 'structure/addchildren');
